@@ -36,8 +36,7 @@ public final class CropAutoReplant extends JavaPlugin implements Listener {
             location.getWorld().getBlockAt(location).setType(Material.WHEAT);
             Bukkit.getWorld(world).spawnParticle(Particle.BLOCK_CRACK, location.add(0.5,0,0.5), 200, block.createBlockData());
         }
-        if (interaction &&
-                block.name().equals("CARROTS") && blockData.equals("minecraft:carrots[age=7]")){
+        if (interaction && block.name().equals("CARROTS") && blockData.equals("minecraft:carrots[age=7]")){
             event.getClickedBlock().setType(Material.AIR);
             Bukkit.getWorld(world).dropItemNaturally(location, new ItemStack(Material.CARROT).add());
             location.getWorld().getBlockAt(location).setType(Material.CARROTS);
