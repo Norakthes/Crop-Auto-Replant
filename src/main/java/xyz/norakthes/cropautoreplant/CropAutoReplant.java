@@ -11,6 +11,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Objects;
+
 public final class CropAutoReplant extends JavaPlugin implements Listener {
 
     @Override
@@ -26,7 +28,7 @@ public final class CropAutoReplant extends JavaPlugin implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         String world = event.getPlayer().getWorld().getName();
-        Location location = event.getClickedBlock().getLocation();
+        Location location = Objects.requireNonNull(event.getClickedBlock()).getLocation();
         Material block = event.getClickedBlock().getType();
         String blockData = event.getClickedBlock().getBlockData().getAsString();
         boolean interaction = event.getAction().equals(Action.RIGHT_CLICK_BLOCK);
