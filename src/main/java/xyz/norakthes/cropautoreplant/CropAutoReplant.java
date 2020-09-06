@@ -8,7 +8,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Collection;
 
 public final class CropAutoReplant extends JavaPlugin implements Listener {
 
@@ -29,25 +32,36 @@ public final class CropAutoReplant extends JavaPlugin implements Listener {
             Location location = event.getClickedBlock().getLocation();
             Material block = event.getClickedBlock().getType();
             String blockData = event.getClickedBlock().getBlockData().getAsString();
-            if (block.name().equals("WHEAT") && blockData.equals("minecraft:wheat[age=7]")) {
-                event.getClickedBlock().breakNaturally();
-                location.getWorld().getBlockAt(location).setType(Material.WHEAT);
-                Bukkit.getWorld(world).spawnParticle(Particle.BLOCK_CRACK, location.add(0.5, 0, 0.5), 200, block.createBlockData());
-            }
-            if (block.name().equals("CARROTS") && blockData.equals("minecraft:carrots[age=7]")) {
-                event.getClickedBlock().breakNaturally();
-                location.getWorld().getBlockAt(location).setType(Material.CARROTS);
-                Bukkit.getWorld(world).spawnParticle(Particle.BLOCK_CRACK, location.add(0.5, 0, 0.5), 200, block.createBlockData());
-            }
-            if (block.name().equals("POTATOES") && blockData.equals("minecraft:potatoes[age=7]")) {
-                event.getClickedBlock().breakNaturally();
-                location.getWorld().getBlockAt(location).setType(Material.POTATOES);
-                Bukkit.getWorld(world).spawnParticle(Particle.BLOCK_CRACK, location.add(0.5, 0, 0.5), 200, block.createBlockData());
-            }
-            if (block.name().equals("BEETROOTS") && blockData.equals("minecraft:beetroots[age=3]")) {
-                event.getClickedBlock().breakNaturally();
-                location.getWorld().getBlockAt(location).setType(Material.BEETROOTS);
-                Bukkit.getWorld(world).spawnParticle(Particle.BLOCK_CRACK, location.add(0.5, 0, 0.5), 200, block.createBlockData());
+            Collection<ItemStack> drops = event.getClickedBlock().getDrops();
+            switch (blockData.trim()){
+                case "minecraft:wheat[age=7]":
+                    drops.add(new ItemStack(Material.WHEAT_SEEDS, -1));
+                    event.getClickedBlock().breakNaturally();
+                    location.getWorld().getBlockAt(location).setType(Material.WHEAT);
+                    Bukkit.getWorld(world).spawnParticle(Particle.BLOCK_CRACK, location.add(0.5, 0, 0.5), 200, block.createBlockData());
+                    break;
+
+                case "minecraft:carrots[age=7]":
+                    drops.add(new ItemStack(Material.CARROT, -1));
+                    event.getClickedBlock().breakNaturally();
+                    location.getWorld().getBlockAt(location).setType(Material.CARROTS);
+                    Bukkit.getWorld(world).spawnParticle(Particle.BLOCK_CRACK, location.add(0.5, 0, 0.5), 200, block.createBlockData());
+                    break;
+
+                case "minecraft:potatoes[age=7]":
+                    drops.add(new ItemStack(Material.POTATO, -1));
+                    event.getClickedBlock().breakNaturally();
+                    location.getWorld().getBlockAt(location).setType(Material.POTATOES);
+                    Bukkit.getWorld(world).spawnParticle(Particle.BLOCK_CRACK, location.add(0.5, 0, 0.5), 200, block.createBlockData());
+                    break;
+
+                case "minecraft:beetroots[age=3]":
+                    drops.add(new ItemStack(Material.BEETROOT_SEEDS, -1));
+                    event.getClickedBlock().breakNaturally();
+                    location.getWorld().getBlockAt(location).setType(Material.BEETROOTS);
+                    Bukkit.getWorld(world).spawnParticle(Particle.BLOCK_CRACK, location.add(0.5, 0, 0.5), 200, block.createBlockData());
+                    break;
+
             }
         }
     }
